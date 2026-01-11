@@ -1,0 +1,16 @@
+.global _start
+_start:
+	#load min value in t0, max value in t1, sum in s1
+	li t0,1
+	li t1, 30
+	li s1, 0
+	
+	#Loop till t0 <= t1, and add t0 value into s1 and increment t0
+	myloop: add s1,s1, t0
+			addi t0,t0,1
+			ble t0,t1,myloop
+			
+		
+	fin: j fin
+			
+	
