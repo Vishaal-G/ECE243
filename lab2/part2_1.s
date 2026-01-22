@@ -1,6 +1,9 @@
 .global _start
 _start:
 
+# Connect output to LEDs
+.equ LEDs, 0xFF200000
+
 # s3 should contain the grade of the person with the student number, -1 if not found
 # s0 has the student number being searched
 
@@ -24,12 +27,23 @@ found:
     add  t3, t3, t4 # Pointer to student 718293's grade
     lw  s3, 0(t3) # Store the grade into s3
     sw  s3, 0(s1) # Store the grade into result
-    j   iloop
+    
+    # Display result on LEDs
+    li  t7, LEDs
+    lw  t6, 0(s1)      
+    sw  t6, 0(t7) 
+    
+    j iloop
 
 failed:
     li  s3, -1  # Return -1 
     sw  s3, 0(s1) # Store -1 into result
 	
+    # Display result on LEDs
+    li  t7, LEDs
+    lw  t6, 0(s1)      
+    sw  t6, 0(t7)  
+    
 iloop: j iloop
 
 /* result should hold the grade of the student number put into s0, or
