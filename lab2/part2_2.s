@@ -1,11 +1,14 @@
 .global _start
 _start:
 
+# Connect output to LEDs
+.equ LEDs, 0xFF200000
+
 # s3 should contain the grade of the person with the student number, -1 if not found
 # s0 has the student number being searched
 
     li s0, 718293
-	li t0, 0 # Set a register to hold the index 
+	li t0, 0 # Set a register to hold the index
 	la t1, Snumbers # Pointer to array of student numbers
 	la s1, result # Pointer to where grade is stored
 
@@ -19,23 +22,35 @@ myloop:
 	j myloop # Loop again
 
 found:
-	la t3, Grades # Pointer to array of student grades
+    la t3, Grades # Pointer to array of student grades
     add  t3, t3, t0 # Pointer to student 718293's grade
     lb s3, 0(t3) # Load the grade byte into s3
     sb  s3, 0(s1) # Store the grade into result
-    j iloop
 
+    # Display result on LEDs
+    li  t7, LEDs
+    lb  t6, 0(s1)      
+    sw  t6, 0(t7)
+   
+    j iloop
+   
 failed:
-    li  s3, -1  # Return -1 
+    li  s3, -1  # Return -1
     sb  s3, 0(s1) # Store -1 into result
-	
+
+    # Display result on LEDs
+    li  t7, LEDs
+    lb  t6, 0(s1)      
+    sw  t6, 0(t7)  
+   
 iloop: j iloop
 
 /* result should hold the grade of the student number put into s0, or
--1 if the student number isn't found */ 
+-1 if the student number isn't found */
 
 result: .byte 0 # Result is a byte
-		
+.byte 0,0,0
+.align 2
 /* Snumbers is the "array," terminated by a zero of the student numbers  */
 Snumbers: .word 10392584, 423195, 644370, 496059, 296800
         .word 265133, 68943, 718293, 315950, 785519
