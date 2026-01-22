@@ -1,8 +1,7 @@
-.global _start
-_start:
-
 # Connect output to LEDs
 .equ LEDs, 0xFF200000
+.global _start
+_start:
 
 # s3 should contain the grade of the person with the student number, -1 if not found
 # s0 has the student number being searched
@@ -28,9 +27,9 @@ found:
     sb  s3, 0(s1) # Store the grade into result
 
     # Display result on LEDs
-    li  t7, LEDs
+    li  t5, LEDs
     lb  t6, 0(s1)      
-    sw  t6, 0(t7)
+    sw  t6, 0(t5)
    
     j iloop
    
@@ -39,9 +38,9 @@ failed:
     sb  s3, 0(s1) # Store -1 into result
 
     # Display result on LEDs
-    li  t7, LEDs
+    li  t5, LEDs
     lb  t6, 0(s1)      
-    sw  t6, 0(t7)  
+    sw  t6, 0(t5)  
    
 iloop: j iloop
 
