@@ -48,8 +48,7 @@ iloop: j iloop
 -1 if the student number isn't found */
 
 result: .byte 0 # Result is a byte
-.byte 0,0,0
-.align 2
+.skip 3
 /* Snumbers is the "array," terminated by a zero of the student numbers  */
 Snumbers: .word 10392584, 423195, 644370, 496059, 296800
         .word 265133, 68943, 718293, 315950, 785519
