@@ -30,6 +30,10 @@ loop:
 finished: 
 sw t2, (s0)
 
+.equ LEDs, 0xFF200000
+li  t4, LEDs
+sw  t2, 0(t4)
+
 iloop: j iloop
 
 

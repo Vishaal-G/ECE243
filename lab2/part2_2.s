@@ -27,9 +27,9 @@ found:
     sb  s3, 0(s1) # Store the grade into result
 
     # Display result on LEDs
-    li  t5, LEDs
-    lb  t6, 0(s1)      
-    sw  t6, 0(t5)
+    li  t4, LEDs
+    lb  t5, 0(s1)      
+    sw  t5, 0(t4)
    
     j iloop
    
@@ -38,9 +38,9 @@ failed:
     sb  s3, 0(s1) # Store -1 into result
 
     # Display result on LEDs
-    li  t5, LEDs
-    lb  t6, 0(s1)      
-    sw  t6, 0(t5)  
+    li  t4, LEDs
+    lb  t5, 0(s1)      
+    sw  t5, 0(t4)  
    
 iloop: j iloop
 
