@@ -1,9 +1,6 @@
 .global _start
 _start:
 
-# Connect output to LEDs
-.equ LEDs, 0xFF200000
-
 # s3 should contain the grade of the person with the student number, -1 if not found
 # s0 has the student number being searched
 
@@ -14,6 +11,10 @@ _start:
 
 # Your code goes below this line and above iloop
 myloop:
+
+# Connect output to LEDs
+.equ LEDs, 0xFF200000
+
 	lw t2, 0(t1) # Load current student number into register t2
 	beq t2, zero, failed # Didn't find student number
 	beq t2, s0, found # Found the student number

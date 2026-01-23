@@ -1,5 +1,3 @@
-# Connect output to LEDs
-.equ LEDs, 0xFF200000
 .global _start
 _start:
 
@@ -12,6 +10,10 @@ _start:
 	la s1, result # Pointer to where grade is stored
 
 # Your code goes below this line and above iloop
+
+# Connect output to LEDs
+.equ LEDs, 0xFF200000
+
 myloop:
 	lw t2, 0(t1) # Load current student number into register t2
 	beq t2, zero, failed # Didn't find student number
