@@ -61,10 +61,10 @@ ONES:
 
 DELAY:
     li t6, 0 # Set counting variable for delay
-    li t7, 1000 # Upper bound
+    li a7, 5000000 # Upper bound
     delay_loop:
         addi t6, t6, 1 # Count up
-        beq t6, t7, done_loop # Count until reached upper bound
+        beq t6, a7, done_loop # Count until reached upper bound
         j delay_loop
     done_loop:
         ret
