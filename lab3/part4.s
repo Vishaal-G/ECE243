@@ -35,8 +35,6 @@ zeroes:
 after_array:
     sw s1, (s3) # Store max # of ones at address LargestOnes
     sw s2, (s4) # Store max # of zeroes at address LargestZeroes
-    andi s1, s1, 0x3FF
-    andi s2, s2, 0x3FF
 
 led: 
     sw s1, (t5) # Display low order 10 bits of LargestOnes
