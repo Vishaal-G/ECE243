@@ -25,11 +25,11 @@ myloop:
 check:
     beq s1, zero, delay # If stopped, do not increment counter
     addi s0, s0, 1 # Increment counter
-    andi s0, s0, 0xFF # Mask all bit lower 8 bits
+    andi s0, s0, 0xFF # Keep lower 8 bits
     sw s0, 0(t2) # Update LEDs with new counter value
 
 delay:
-    call DELAY # Wait about 0.25 seconds
+    call DELAY
     j myloop # Repeat forever
 
 DELAY:
