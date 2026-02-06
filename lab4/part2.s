@@ -14,7 +14,7 @@ li s0, 0 # Set counter value to 0 by default
 li t2, LEDs
 sw s0, 0(t2) # Display initial counter value on LEDs
 la t0, KEY_BASE     
-li s1, 0 # Register holding state (counting or stopped)
+li s1, 0 # Store 0 if paused, 1 if counting mode
 
 myloop:
     lw t1, KEY_EDGE(t0) # Read edge-capture 
