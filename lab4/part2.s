@@ -34,7 +34,7 @@ delay:
 
 DELAY:
     li t3, 5000000 # Upper bound for delay
-dloop:
-    addi t3, t3, -1 # Countdown
-    bne t3, zero, dloop # Loop until counter hits 0
-    ret                  
+    dloop:
+        addi t3, t3, -1 # Countdown
+        bne t3, zero, dloop # Loop until counter hits 0
+        ret                  
