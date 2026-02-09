@@ -14,7 +14,7 @@ li s0, 0 # Set counter value to 0 by default
 li t2, LEDs
 sw s0, 0(t2) # Display initial counter value on LEDs
 la t0, KEY_BASE     
-li s1, 0 # Register holding state (counting or stopped)
+li s1, 0 # Store 0 if paused, 1 if counting mode
 
 myloop:
     lw t1, KEY_EDGE(t0) # Read edge-capture 
@@ -25,11 +25,11 @@ myloop:
 check:
     beq s1, zero, delay # If stopped, do not increment counter
     addi s0, s0, 1 # Increment counter
-    andi s0, s0, 0xFF # Mask all bit lower 8 bits
+    andi s0, s0, 0xFF # Keep lower 8 bits
     sw s0, 0(t2) # Update LEDs with new counter value
 
 delay:
-    call DELAY # Wait about 0.25 seconds
+    call DELAY
     j myloop # Repeat forever
 
 DELAY:
