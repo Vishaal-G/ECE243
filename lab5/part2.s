@@ -17,7 +17,7 @@ csrw mstatus, zero # Turn off bit 3 of mstatus - the MIE bit
 li sp, 0x20000 
 
 #activate interrupts from IRQ18 (Pushbuttons)
-li   t0, 0x40000 # Load mask with bit 18 set in t0
+li t0, 0x40000 # Load mask with bit 18 set in t0
 csrs mie, t0 # Sets bit 18 of the mie register to 1
 
 #Set the mtvec register to be the interrupt_handler location
@@ -32,7 +32,7 @@ sw t0, 8(t1) # Set interrupt enable in interrupt mask reg for Keys
 sw t0, 12(t1) # Clear Edge Capture bit of Keys in case it is already on
 
 #Now that everything is set, turn on Interrupts in the mstatus register
-li   t0, 0b1000 # Turn on bit 3 of reg t0   
+li t0, 0b1000 # Turn on bit 3 of reg t0   
 csrs mstatus, t0 # Turn on bit 3 of mstatus to re-enable interrupts
 
 IDLE: j IDLE #Infinite loop while waiting on interrupt
