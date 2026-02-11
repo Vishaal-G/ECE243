@@ -28,8 +28,8 @@ csrw mtvec, t0
 #additional set up for the pushbuttons */
 li t1, PUSH_BUTTON # Address of KEY registers base into t1
 li t0, 0b1111 # Enable all keys
-sw t0, 8(t1) # Set interrupt enable in interrupt mask reg for Key 1
-sw t0, 12(t1) # Clear Edge Capture bit of Key 1 in case it is already on
+sw t0, 8(t1) # Set interrupt enable in interrupt mask reg for Keys
+sw t0, 12(t1) # Clear Edge Capture bit of Keys in case it is already on
 
 #Now that everything is set, turn on Interrupts in the mstatus register
 li   t0, 0b1000 # Turn on bit 3 of reg t0   
@@ -71,15 +71,15 @@ KEY_ISR:
 
 # Save registers used in the interrupt service routine on stack
     addi sp, sp, -36
-    sw   ra, 0(sp)
-    sw   t0, 4(sp)
-    sw   t1, 8(sp)
-    sw   t2, 12(sp)
-    sw   t3, 16(sp)
-    sw   t4, 20(sp)
-    sw   t5, 24(sp)
-    sw   a0, 28(sp)
-    sw   a1, 32(sp)
+    sw ra, 0(sp)
+    sw t0, 4(sp)
+    sw t1, 8(sp)
+    sw t2, 12(sp)
+    sw t3, 16(sp)
+    sw t4, 20(sp)
+    sw t5, 24(sp)
+    sw a0, 28(sp)
+    sw a1, 32(sp)
 
 	# Checking for key press
 	li t0, PUSH_BUTTON
@@ -97,85 +97,85 @@ KEY_ISR:
 
 check_0:
     andi t4, t1, 0x1 # Check if key 0 pressed 
-    beq  t4, zero, check_1
+    beq t4, zero, check_1
 
     andi t5, t3, 0xFF # Get HEX0 byte
-    bne  t5, zero, blank_0 # Blank if not blanked 
-    li   a1, 0 # Use HEX0
-    li   a0, 0 # Display 0 on it
+    bne t5, zero, blank_0 # Blank if not blanked 
+    li a1, 0 # Use HEX0
+    li a0, 0 # Display 0 on it
     call HEX_DISP
     j check_1
 
 blank_0:
-    li   a1, 0 # Set HEX0 to blank
-    li   a0, 0x10
+    li a1, 0 # Set HEX0 to blank
+    li a0, 0x10
     call HEX_DISP
     j check_1
 
 check_1:
     andi t4, t1, 0x2 # Check if key 1 pressed 
-    beq  t4, zero, check_2
+    beq t4, zero, check_2
 
     srli t5, t3, 8 # Move HEX1 byte into low bits
     andi t5, t5, 0xFF # Get HEX1 byte
-    bne  t5, zero, blank_1 # Blank if not blanked
-    li   a1, 1 # Use HEX1
-    li   a0, 1 # Display 1 on it
+    bne t5, zero, blank_1 # Blank if not blanked
+    li a1, 1 # Use HEX1
+    li a0, 1 # Display 1 on it
     call HEX_DISP
     j check_2
 
 blank_1:
-    li   a1, 1 # Set HEX1 to blank
-    li   a0, 0x10
+    li a1, 1 # Set HEX1 to blank
+    li a0, 0x10
     call HEX_DISP
     j check_2
 
 check_2:
     andi t4, t1, 0x4 # Check if key 2 pressed
-    beq  t4, zero, check_3
+    beq t4, zero, check_3
 
     srli t5, t3, 16 # Move HEX2 byte into low bits
     andi t5, t5, 0xFF # Get HEX2 byte
-    bne  t5, zero, blank_2 # Blank if not blanked
-    li   a1, 2 # Use HEX2
-    li   a0, 2 # Display 2 on it
+    bne t5, zero, blank_2 # Blank if not blanked
+    li a1, 2 # Use HEX2
+    li a0, 2 # Display 2 on it
     call HEX_DISP
     j check_3
 
 blank_2:
-    li   a1, 2 # Set HEX2 to blank
-    li   a0, 0x10
+    li a1, 2 # Set HEX2 to blank
+    li a0, 0x10
     call HEX_DISP
     j check_3
 
 check_3:
     andi t4, t1, 0x8 # Check if key 3 pressed 
-    beq  t4, zero, after_key
+    beq t4, zero, after_key
 
     srli t5, t3, 24 # Move HEX3 byte into low bits
     andi t5, t5, 0xFF # Get HEX3 byte
-    bne  t5, zero, blank_3 # Blank if not blanked
-    li   a1, 3 # Use HEX3
-    li   a0, 3 # Display 3 on it
+    bne t5, zero, blank_3 # Blank if not blanked
+    li a1, 3 # Use HEX3
+    li a0, 3 # Display 3 on it
     call HEX_DISP
     j after_key
 blank_3:
-    li   a1, 3 # Set HEX3 to blank
-    li   a0, 0x10
+    li a1, 3 # Set HEX3 to blank
+    li a0, 0x10
     call HEX_DISP
 
 after_key:
 
 	# Restore saved registers and return
-    lw   ra, 0(sp)
-    lw   t0, 4(sp)
-    lw   t1, 8(sp)
-    lw   t2, 12(sp)
-    lw   t3, 16(sp)
-    lw   t4, 20(sp)
-    lw   t5, 24(sp)
-    lw   a0, 28(sp)
-    lw   a1, 32(sp)
+    lw ra, 0(sp)
+    lw t0, 4(sp)
+    lw t1, 8(sp)
+    lw t2, 12(sp)
+    lw t3, 16(sp)
+    lw t4, 20(sp)
+    lw t5, 24(sp)
+    lw a0, 28(sp)
+    lw a1, 32(sp)
     addi sp, sp, 36
     ret
 
