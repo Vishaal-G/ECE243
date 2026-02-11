@@ -159,7 +159,7 @@ write_dn:
 	srli t4, t3, 16 # Split into high 16
 	sw t2, 8(t0) # Write PERIODL
 	sw t4, 12(t0) # Write PERIODH
-	sw zero, 0(t0) Clear TO bit just in case
+	sw zero, 0(t0) # Clear TO bit just in case
 	li t4, 0b0111 # ITO=1, CONT=1, START=1
 	sw t4, 4(t0) # Restart timer
 
