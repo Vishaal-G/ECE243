@@ -83,7 +83,7 @@ KEY_ISR:
 	li t0, 0xFF200050 # KEY_BASE
 	lw t1, 12(t0) # Read edge capture reg
 	andi t1, t1, 0xF # Keep only lower 4 bits
-	beq t1, zero, after_key # Key was not pressed
+	beq t1, zero, key_done # Key was not pressed
 	sw t1, 12(t0) # Clear edge capture
 
 check_key0:
@@ -132,7 +132,7 @@ write_up:
 
 check_key2:
 	andi t2, t1, 0x4 # Check if KEY2 pressed
-	beq t2, zero, after_key
+	beq t2, zero, key_done
 
 	li t0, TIMER # Timer base
 	sw zero, 4(t0) # Stop timer before changing period
@@ -150,10 +150,10 @@ check_key2:
 
 	# Max limit
 	li t4, 100000000
-	ble t3, t4, write_dn
+	ble t3, t4, write_down
 	mv t3, t4
 
-write_dn:
+write_down:
 	li t5, 0xFFFF
 	and t2, t3, t5 # Split into low 16
 	srli t4, t3, 16 # Split into high 16
@@ -163,7 +163,7 @@ write_dn:
 	li t4, 0b0111 # ITO=1, CONT=1, START=1
 	sw t4, 4(t0) # Restart timer
 
-after_key:
+key_done:
 
 	# Restore saved registers and return
 	lw ra, 0(sp)
