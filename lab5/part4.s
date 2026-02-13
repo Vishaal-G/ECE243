@@ -244,7 +244,7 @@ CONFIG_KEYS:
 	sw t0, 12(t1) # Clear Edge Capture bit of Keys in case it is already on
 
 	# Enable KEY interrupts in mie (KEYs are IRQ18)
-	li t1, 0x40000 # (1 << 18)
+	li t1, 0x40000 # 
 	csrs mie, t1
 	ret
 
