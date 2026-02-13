@@ -38,24 +38,24 @@ interrupt_handler:
 	sw ra, 8(sp)
 
 	csrr t1, mcause # Read mcause to find interrupt source
-	li t0, 0x7FFFFFFF
-	and t1, t1, t0 # Clear the top bit (the interrupt)
+	li t0, 0x7FFFFFFF 
+	and t1, t1, t0 # Get the top bit (the interrupt type)
 
 	# Check if interrupt came from timer
 	li t0, 16
-	beq t1, t0, from_timer
+	beq t1, t0, cause_timer
 
 	# Check if interrupt came from keys
 	li t0, 18
-	beq t1, t0, from_keys
+	beq t1, t0, cause_keys
 
 	j end_interrupt
 
-from_timer:
+cause_timer: # The cause was the timer, so jump to handler
 	jal TIMER_ISR
 	j end_interrupt
 
-from_keys:
+cause_keys: # The cause was the key, so jump to handler
 	jal KEY_ISR
 
 end_interrupt:
@@ -153,7 +153,7 @@ CONFIG_TIMER:
 	sw t0, 12(t1) # Writing high 16 bits into PERIODH
 
 	li t0, 0b0111 # Set ITO=1, CONT=1, START=1
-	sw t0, 4(t1) # write control register
+	sw t0, 4(t1) # Write control register
 
 	# Enable timer interrupts on CPU side 
 	li t0, 0x00010000
@@ -169,7 +169,7 @@ CONFIG_KEYS:
 	sw t0, 12(t1) # Clear Edge Capture bit of Keys in case it is already on
 
 	# Enable KEY interrupts in mie (KEYs are IRQ18)
-	li t1, 0x40000 # (1 << 18)
+	li t1, 0x40000 
 	csrs mie, t1
 	ret
 
