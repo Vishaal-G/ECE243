@@ -128,7 +128,7 @@ write_up:
 
 	sw zero, 0(t0) # Clear TO bit just in case
 	li t4, 0b0111 # ITO=1, CONT=1, START=1
-	sw t4, 4(t0) Restart timer
+	sw t4, 4(t0) # Restart timer
 
 check_key2:
 	andi t2, t1, 0x4 # Check if KEY2 pressed
