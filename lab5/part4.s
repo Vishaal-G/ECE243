@@ -110,7 +110,7 @@ check_key1:
 	lw t3, 12(t0) # PERIODH
 	and t3, t3, t5
 	slli t3, t3, 16
-	or t3, t3, t2
+	or t3, t3, t2 # Combine lower and higher periods
 
 	srli t3, t3, 1 # Period / 2 (Makes it faster)
 
@@ -144,7 +144,7 @@ check_key2:
 	lw t3, 12(t0) # PERIODH
 	and t3, t3, t5
 	slli t3, t3, 16
-	or t3, t3, t2
+	or t3, t3, t2 # Combine lower and higher periods
 
 	slli t3, t3, 1 # Period * 2 (Makes it slower)
 
