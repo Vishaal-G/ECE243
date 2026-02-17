@@ -110,7 +110,7 @@ check_key1:
 	lw t3, 12(t0) # PERIODH
 	and t3, t3, t5
 	slli t3, t3, 16
-	or t3, t3, t2
+	or t3, t3, t2 # Combine lower and higher periods
 
 	srli t3, t3, 1 # Period / 2 (Makes it faster)
 
@@ -128,7 +128,7 @@ write_up:
 
 	sw zero, 0(t0) # Clear TO bit just in case
 	li t4, 0b0111 # ITO=1, CONT=1, START=1
-	sw t4, 4(t0) Restart timer
+	sw t4, 4(t0) # Restart timer
 
 check_key2:
 	andi t2, t1, 0x4 # Check if KEY2 pressed
@@ -144,7 +144,7 @@ check_key2:
 	lw t3, 12(t0) # PERIODH
 	and t3, t3, t5
 	slli t3, t3, 16
-	or t3, t3, t2
+	or t3, t3, t2 # Combine lower and higher periods
 
 	slli t3, t3, 1 # Period * 2 (Makes it slower)
 
@@ -244,7 +244,7 @@ CONFIG_KEYS:
 	sw t0, 12(t1) # Clear Edge Capture bit of Keys in case it is already on
 
 	# Enable KEY interrupts in mie (KEYs are IRQ18)
-	li t1, 0x40000 # (1 << 18)
+	li t1, 0x40000 # 
 	csrs mie, t1
 	ret
 
