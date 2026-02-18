@@ -1,38 +1,18 @@
-#include "address_map.h"
-
-#define FS 8000.0
-#define HIGH 0x007FFFFF
-#define LOW (-0x00800000)
+#include "address_map.h"  
 
 int main(void) {
-  volatile int* SW = (int*)SW_BASE;
-  volatile int* audio_ptr = (int*)AUDIO_BASE;
+  volatile int* LEDR = (int*)LEDR_BASE;  // 0xFF200000 in Assembly
+  volatile int* KEY = (int*)KEY_BASE;    // 0xFF200050 in Assembly
 
-  int count = 0;
+  // Clear edge capture bits for all keys
+  *(KEY + 3) = 0xF;
 
   while (1) {
-    int sw = (*SW) & 0x3FF;  // Read 10-bit switch value
-    double f = 100.0 + (1900.0 * sw) / 1023.0;  // Compute frequency from switch value
-
-    // Compute half period
-    int period = (int)(FS / f);
-    int half = period / 2;
-    if (half < 1) half = 1;
-
-    // Check if there is space in the output FIFO
-    int fifospace = *(audio_ptr + 1);
-    int wslc = (fifospace >> 16) & 0xFF;
-    int wsrc = (fifospace >> 24) & 0xFF;
-
-    // Only generate samples if there is space in the output FIFO
-    if (wslc > 0 && wsrc > 0) {
-      int sample = (count < half) ? HIGH : LOW;  // Generate square wave sample
-
-      *(audio_ptr + 2) = sample;  // Left out
-      *(audio_ptr + 3) = sample;  // Right out
-      count++;
-
-      if (count >= 2 * half) count = 0;  // Reset count after one full period
-    }
+    int edge = *(KEY + 3);  // Read edge capture: offset 12
+    if (edge & 0x1)         // If KEY0 pressed
+      *LEDR = 0x3FF;        // Turn all LEDs ON
+    if (edge & 0x2)         // If KEY1 pressed
+      *LEDR = 0x0;          // Turn all LEDs OFF
+    *(KEY + 3) = edge;      // Clear edge capture bits
   }
 }
