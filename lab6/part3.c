@@ -34,6 +34,7 @@ int main(void) {
         sample = LOW;
       }
 
+      // Write sample to audio output
       *(audio_ptr + 2) = sample;  // Left out
       *(audio_ptr + 3) = sample;  // Right out
       count++;
