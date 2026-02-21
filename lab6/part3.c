@@ -12,7 +12,8 @@ int main(void) {
 
   while (1) {
     int sw = (*SW) & 0x3FF;  // Read 10-bit switch value
-    double f = 100.0 + (1900.0 * sw) / 1023.0;  // Compute frequency from switch value
+    double f =
+        100.0 + (1900.0 * sw) / 1023.0;  // Compute frequency from switch value
 
     // Compute half period
     int period = (int)(FS / f);
