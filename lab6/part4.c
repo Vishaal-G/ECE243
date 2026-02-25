@@ -1,4 +1,4 @@
-#include "address_map.h"
+#define AUDIO_BASE 0xff203040
 
 #define DELAY 3200  // 0.4s delay 8khz
 #define DAMP_DIV 2  // Damping factor
