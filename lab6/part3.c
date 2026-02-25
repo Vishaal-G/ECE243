@@ -30,9 +30,9 @@ int main(void) {
     if (wslc > 0 && wsrc > 0) {
       // Generate square wave
       int sample;
-      
+
       if (count < half) {
-        sample = HIGH;
+        sample = HIGH; 
       } else {
         sample = LOW;
       }
