@@ -1,4 +1,5 @@
-#include "address_map.h"
+#define AUDIO_BASE 0xff203040
+#define SW_BASE 0xFF200040
 
 #define FS 8000.0
 #define HIGH 0x007FFFFF
