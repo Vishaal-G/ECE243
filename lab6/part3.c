@@ -29,6 +29,8 @@ int main(void) {
     // Only generate samples if there is space in the output FIFO
     if (wslc > 0 && wsrc > 0) {
       // Generate square wave
+      int sample;
+      
       if (count < half) {
         sample = HIGH;
       } else {
