@@ -1,33 +1,16 @@
-int main() {
-	//Storing the base registers for LED and KEY
-    volatile int *KEY_BASE = (int *)0xFF200050;
-	volatile int *LED_BASE = (int*)0xFF200000;
-	
-	//Clear any stale edge capture values at startup
-	*(KEY_BASE + 3) = 0xF;
+int main(void) {
+  volatile int* LEDR = (int*)0xFF200000;  // LED base
+  volatile int* KEY = (int*)0x200050;    // KEY base
 
-	//Polling loop
-    while (1) {
-        //Access edge capture register of key
-    	int edge_cap = *(KEY_BASE + 3);
-		
-		//Only process if a key event occurred
-		if (edge_cap != 0) {
+  // Clear edge capture bits for all keys
+  *(KEY + 3) = 0xF;
 
-			//Tells me if key 0 is pressed
-			if (edge_cap & 0x1){
-				//Turns all LED's on
-				*(LED_BASE) = 0x3FF;
-			}
-
-			//Tells me if key 1 is pressed
-			if (edge_cap & 0x2){
-				//Turns all LED's off
-				*(LED_BASE) = 0x0;
-			}
-			
-			//Turn off edge capture register by writing same value back to it
-			*(KEY_BASE + 3) = edge_cap;
-		}
-    }
+  while (1) {
+    int edge = *(KEY + 3);  // Read edge capture: offset 12
+    if (edge & 0x1)         // If KEY0 pressed
+      *LEDR = 0x3FF;        // Turn all LEDs ON
+    if (edge & 0x2)         // If KEY1 pressed
+      *LEDR = 0x0;          // Turn all LEDs OFF
+    *(KEY + 3) = edge;      // Clear edge capture bits
+  }
 }
