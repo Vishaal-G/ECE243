@@ -7,7 +7,7 @@ int main(void) {
   volatile int* audio_ptr = (int*)AUDIO_BASE; 
   int fifospace; // Variable to hold FIFO space information
 
-  // Echo buffers for left and right channels
+  // Echo buffers for left and right channels (storing echoed output)
   static int echoL[DELAY] = {0}; 
   static int echoR[DELAY] = {0};
   int idx = 0;
@@ -31,7 +31,7 @@ int main(void) {
       echoR[idx] = outR; 
 
       idx++;
-      if (idx >= DELAY) idx = 0; // Circular buffer for index reset
+      if (idx >= DELAY) idx = 0; // Wrap back to 0 for Circular buffer storage
     }
   }
 }
